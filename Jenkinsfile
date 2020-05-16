@@ -6,13 +6,13 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git 'https://github.com/Hemantakumarpati/OnlineBookStore.git'
+        git 'https://github.com/Hemantakumarpati/OnlineQuiz.git'
       }
     }
     stage('Building image') {
       steps{
         script {
-          app = docker.build("hemantakumarpati/onlinebookstore")
+          app = docker.build("hemantakumarpati/onlinequiz")
         }
       }
     }
