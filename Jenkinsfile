@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git 'https://github.com/Hemantakumarpati/ResultProcessingSystem.git'
+        git 'https://github.com/Hemantakumarpati/OnlineQuiz.git'
       }
     }
     stage('Building image') {
@@ -34,7 +34,7 @@ pipeline {
           //sh "docker login -u ${USERNAME} -p ${PASSWORD}"
           //dockerImage.push("$BUILD_NUMBER")
           //dockerImage.push("latest")
-          sh "/home/hemant_pati/dockerpushresult.sh ${BUILD_NUMBER}"
+          sh "/home/hemant_pati/dockerpushonlinequiz.sh ${BUILD_NUMBER}"
             //}
        // }
       }
