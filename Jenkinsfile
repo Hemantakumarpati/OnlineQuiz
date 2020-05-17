@@ -1,31 +1,44 @@
 pipeline {
-    def app
-  
-    stage('Clone repository') {
-        /* Cloning the Repository to our Workspace */
-        checkout scm
+  environment {
+    registry = "hemantakumarpati/onlinequiz"
+    registryCredential = 'dockeruser'
+    dockerImage = ''
+ }
+  agent any
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git 'https://github.com/Hemantakumarpati/ResultProcessingSystem.git'
+      }
     }
-    stage('Build image') {
-        /* This builds the actual image */
-
-        app = docker.build("hemantakumarpati/onlinequiz")
-    }
-
-    stage('Test image') {
-        
-        app.inside {
-            echo "Tests passed"
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
+      }
     }
-
-    stage('Push image') {
-        /* 
-			You would need to first register with DockerHub before you can push images to your account
-		*/
-        docker.withRegistry('', 'dockeruser') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
-            } 
-                echo "Trying to Push Docker Build to DockerHub"
+    /*stage('Test Image' ) {
+                agent {
+                docker { image 'hemantakumarpati/onlinebookstore:$BUILD_NUMBER' }
+            }
+            steps {
+                sh 'docker --version'
+            }
+        }*/
+    stage('Deploy Image') {
+      steps{
+        script {
+          //withCredentials([usernamePassword( credentialsId: 'dockeruser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+          //docker.withRegistry('https://registry.hub.docker.com', 'dockeruser') {
+          //sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+          //dockerImage.push("$BUILD_NUMBER")
+          //dockerImage.push("latest")
+          sh "/home/hemant_pati/dockerpushresult.sh ${BUILD_NUMBER}"
+            //}
+       // }
+      }
     }
+  }
+  }
 }
