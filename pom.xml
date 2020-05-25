@@ -17,5 +17,18 @@
   </dependencies>
   <build>
     <finalName>OnlineQuiz</finalName>
+    <pluginManagement>
+       <plugins>
+	      <plugin>
+ 		      <artifactId>maven-war-plugin</artifactId>
+ 		      <version>2.2</version>
+ 		      <configuration>
+  		     <source>1.7</source>
+  		      <target>1.7</target>
+  		      <failOnMissingWebXml>false</failOnMissingWebXml>
+ 		        </configuration>
+	       </plugin>
+       </plugins>
+      </pluginManagement>
   </build>
 </project>
